@@ -1,0 +1,58 @@
+<section>
+    <div class="container ">
+        <h4>Users</h4>
+        <table class="table mt-5 border border-dark" id="userTable">
+            <thead>
+                <tr>
+                    <th scope="col">name</th>
+                    <th scope="col">email</th>
+                    <th scope="col">mobile</th>
+                    <th scope="col">status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each users}}
+                <tr>
+                    <td>{{this.name}}</td>
+                    <td>{{this.email}}</td>
+                    <td>{{this.mobile}}</td>
+                    {{#if this.status}}
+                    <td><button onclick="active('{{this._id}}')" class="btn btn-success active" id="user-active">active</button>
+                        <a href="/admin/change-status/{{this._id}}" class="confirm btn btn-danger ms-2"
+                            style="display:none" id='{{this._id}}'>Block?</a>
+                    </td>
+                    {{else}}
+                    <td><button onclick="active('{{this._id}}')" class="btn btn-danger active" id="user-inactive">Blocked</button>
+                        <a href="/admin/change-status/{{this._id}}" class="confirm btn btn-success ms-2"
+                            style="display:none" id="{{this._id}}">Reactivate?</a>
+                    </td>
+                    {{/if}}
+                </tr>
+                {{/each}}
+            </tbody>
+
+        </table>
+    </div>
+</section>
+<script>
+
+    $(document).ready(function () {
+        $('#userTable').DataTable();
+    });
+    var elems = document.getElementsByClassName('confirm');
+    var confirmIt = function (e) {
+        if (!confirm('Are you sure?')) e.preventDefault();
+    };
+    for (var i = 0, l = elems.length; i < l; i++) {
+        elems[i].addEventListener('click', confirmIt, false);
+    }
+
+    function active(id) {
+        console.log(id)
+        if (document.getElementById(id).style.display == 'none') {
+            document.getElementById(id).style.display = '';
+        } else {
+            document.getElementById(id).style.display = 'none';
+        }
+    }
+</script>

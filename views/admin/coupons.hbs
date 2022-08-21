@@ -1,0 +1,247 @@
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div>
+                    <h3>coupons</h3>
+                </div>
+                <div>
+
+                    <input type="text" name="" id="exist" value="{{#if couponExist}}{{couponExist}}{{/if}}"
+                        style="display:none">
+
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary col- mx-auto" data-bs-toggle="modal"
+                        data-bs-target="#example">
+                        Add Coupon
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="example" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header" style="padding-top: 5px;padding-bottom: 5px;">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="mx-1 mx-md-4" id="myform1" action="/admin/newCoupon" method="post"
+                                        enctype="multipart/form-data">
+
+                                        <div class="d-flex flex-row align-items-center mb-1">
+                                            <div class="form-outline flex-fill mb-0">
+                                                <label class="form-label" for="form3Exsdsdample1c"> Name</label>
+                                                <input type="text" id="name" class="form-control" name="name" />
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-row align-items-center mb-1">
+                                            <div class="form-outline flex-fill mb-0">
+                                                <label class="form-label" for="form3Example1c">code</label>
+                                                <input type="text" id="code" class="form-control" name="code" />
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-row align-items-center mb-1">
+                                            <div class="form-outline flex-fill mb-0">
+                                                <label class="form-label" for="form3Example1c">description</label>
+                                                <input type="text" id="description" class="form-control"
+                                                    name="description" />
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-row align-items-center mb-1">
+                                            <div class="form-outline flex-fill mb-0">
+                                                <label class="form-label" for="form3Example1c">discount</label>
+                                                <input type="number" id="discount" class="form-control"
+                                                    name="percentage" />
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-center mx-4 mb-1 mb-lg-4">
+                                            <button type="submit" class="btn btn-primary btn-lg">Add</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="table" id="dataTable1">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">COUPON NAME</th>
+                            <th scope="col">CODE</th>
+                            <th scope="col">DESCRIPTION</th>
+                            <th scope="col">DISCOUNT</th>
+                            <th scope="col">EDIT</th>
+                            <th scope="col">DELETE</th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="customtable">
+                        {{#each coupon}}
+                        <tr>
+                            <td>{{this.name}}</td>
+                            <td>{{this.code}}</td>
+                            <td>{{this.description}}</td>
+                            <td>{{this.percentage}}</td>
+                            {{!-- <td><a class="btn" onclick="editCoupon('{{this._id}}')">EDIT</a></td> --}}
+                            <td>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary col- mx-auto" data-bs-toggle="modal"
+                                    data-bs-target="#m{{this._id}}">
+                                    EDIT
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="m{{this._id}}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="padding-top: 5px;padding-bottom: 5px;">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close">
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="mx-1 mx-md-4 ediFormClass" id="editForm{{this._id}}"
+                                                    action="/admin/editCoupon/{{this._id}}" method="post"
+                                                    enctype="multipart/form-data">
+                                                    {{#if bannerExist}}
+                                                    <p style="color:crimson ;">coupon code already exist</p>
+                                                    {{/if}}
+                                                    <div class="d-flex flex-row align-items-center mb-1">
+                                                        <div class="form-outline flex-fill mb-0">
+                                                            <label class="form-label" for="form3Exsdsdample1c">
+                                                                Name</label>
+                                                            <input type="text" id="name{{this._id}}"
+                                                                class="form-control" name="name"
+                                                                value="{{this.name}}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex flex-row align-items-center mb-1">
+                                                        <div class="form-outline flex-fill mb-0">
+                                                            <label class="form-label" for="form3Example1c">code</label>
+                                                            <input type="text" id="code{{this._id}}"
+                                                                class="form-control" name="code"
+                                                                value="{{this.code}}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex flex-row align-items-center mb-1">
+                                                        <div class="form-outline flex-fill mb-0">
+                                                            <label class="form-label"
+                                                                for="form3Example1c">description</label>
+                                                            <input type="text" id="description{{this._id}}"
+                                                                class="form-control" name="description"
+                                                                value="{{this.description}}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex flex-row align-items-center mb-1">
+                                                        <div class="form-outline flex-fill mb-0">
+                                                            <label class="form-label"
+                                                                for="form3Example1c">discount</label>
+                                                            <input type="number" id="discount{{this._id}}"
+                                                                class="form-control" name="percentage"
+                                                                value="{{this.percentage}}" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="d-flex justify-content-center mx-4 mb-1 mb-lg-4">
+                                                        <button type="submit" form="editForm{{this._id}}"
+                                                            class="btn btn-primary btn-lg">Edit</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><a href="/admin/deleteCoupon/{{this._id}}"
+                                    onclick="return confirm('Are you sure you want to delete  {{this.name}}?')"
+                                    class="btn">DELETE</a></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+
+    $(document).ready(function () {
+        $('#dataTable1').DataTable();
+    });
+    document.addEventListener('DOMContentLoaded', exists, false)
+    function exists() {
+        let exist = document.getElementById('exist').value
+        if (exist === 'true') swal('', 'Coupon Code Already Exist', 'warning')
+    }
+    // let couponForms = document.getElementsByClassName('ediFormClass')
+    //console.log(couponForms)
+    //for (let i = 0; i < couponForms.length; i++) {
+    //  $(couponForms[i].id).validate({
+    //    rules: {
+    //      name: {
+    //        required: true,
+    //  },
+    //code: {
+    //  required: true,
+    // },
+    //description: {
+    //  required: true,
+    //  },
+    //  discount: {
+    //    required: true,
+    //}
+    // }
+    //})
+
+    //}
+
+    $('.ediFormClass').each(function () {
+        $(this).validate({
+            rules: {
+                name: {
+                    required: true,
+                },
+                code: {
+                    required: true,
+                },
+                description: {
+                    required: true,
+                },
+                percentage: {
+                    required: true,
+                }
+            }
+        })
+    })
+
+    $("#myform1").validate({
+        rules: {
+            name: {
+                required: true,
+            },
+            code: {
+                required: true,
+            },
+            description: {
+                required: true,
+            },
+            discount: {
+                required: true,
+            }
+        }
+    })
+
+</script>
+
+<script>
+
+</script>
+
+<style>
+    .error {
+        color: crimson;
+    }
+</style>

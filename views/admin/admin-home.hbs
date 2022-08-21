@@ -1,0 +1,137 @@
+<div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Three charts -->
+                <!-- ============================================================== -->
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-12">
+                        <div class="white-box analytics-info">
+                            <h3 class="box-title">Total Visit</h3>
+                            <ul class="list-inline two-part d-flex align-items-center mb-0">
+                                <li>
+                                    <div id="sparklinedash"><canvas width="67" height="30"
+                                            style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
+                                    </div>
+                                </li>
+                                <li class="ms-auto"><span class="counter text-success">659</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="white-box analytics-info">
+                            <h3 class="box-title">Total Page Views</h3>
+                            <ul class="list-inline two-part d-flex align-items-center mb-0">
+                                <li>
+                                    <div id="sparklinedash2"><canvas width="67" height="30"
+                                            style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
+                                    </div>
+                                </li>
+                                <li class="ms-auto"><span class="counter text-purple">869</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="white-box analytics-info">
+                            <h3 class="box-title">Unique Visitor</h3>
+                            <ul class="list-inline two-part d-flex align-items-center mb-0">
+                                <li>
+                                    <div id="sparklinedash3"><canvas width="67" height="30"
+                                            style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
+                                    </div>
+                                </li>
+                                <li class="ms-auto"><span class="counter text-info">911</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- PRODUCTS YEARLY SALES -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <div class="white-box">
+                            <h3 class="box-title">Sales</h3>
+                            <div class="d-md-flex">
+                                <ul class="list-inline d-flex ms-auto">
+                                    <li class="ps-3">
+                                        <h5><i class="fa fa-circle me-1 text-info"></i>Mac</h5>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="ct-visits" style="height: 405px;">
+                                <canvas id="myChart" style="width:100%;"></canvas><span
+                                        class="chartist-tooltip-value">6</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<section>
+    <div class="container-fluid">
+        
+    </div>
+</section>
+<script>
+
+
+
+
+
+    document.addEventListener("DOMContentLoaded", charts, false)
+
+    async function charts() {
+        const res = await axios.get('/admin/revenueChart').then((e) => {
+            console.log(e.data.orders)
+
+            var result = [];
+            e.data.orders.reduce(function (acc, curr) {
+                if (!acc[curr.createdAt.slice(0, 10)]) {
+                    acc[curr.createdAt.slice(0, 10)] = { date: curr.createdAt.slice(0, 10), totalPrice: 0 };
+                    result.push(acc[curr.createdAt.slice(0, 10)])
+                }
+                acc[curr.createdAt.slice(0, 10)].totalPrice += parseInt(curr.totalPrice)
+
+                return acc
+            }, {});
+
+            console.log(result)
+
+            var xValues = [];
+            var yValues = [];
+
+            result.map((curr) => {
+                xValues.unshift(curr.date)
+                yValues.unshift(parseInt(curr.totalPrice))
+
+            })
+
+
+            console.log(xValues, yValues)
+
+            new Chart("myChart", {
+                type: "line",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        fill: false,
+                        lineTension: 0,
+                        backgroundColor: "rgba(0,0,255,1.0)",
+                        borderColor: "green",
+                        data: yValues
+                    }
+                    ]
+                },
+                options: {
+                    legend: { display: false },
+                    scales: {
+                        yAxes: [{ ticks: { min: 100, max: 500000 } }],
+                    }
+                }
+            });
+
+
+        })
+    }
+
+</script>

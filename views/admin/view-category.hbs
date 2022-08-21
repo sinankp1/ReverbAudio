@@ -1,0 +1,51 @@
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div>
+                    <h3>Categories</h3>
+                </div>
+                <div>
+                    <a class="btn btn-primary m-3" href="/admin/add-category" style="transform: translateX(-10%);">Add Category</a>
+                </div>
+                <table class="table mt-5  border border-dark" id="userTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">name</th>
+                            <th scope="col">description</th>
+                            <td></td>
+                            <td></td>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each categories}}
+                        <tr>
+                            <td>{{this.categoryname}}</td>
+                            <td>{{this.categorydescription}}</td>
+                            <td><a href="/admin/editcategory/{{this._id}}" class="btn btn-primary">Edit</a></td>
+                            <td><a href="/admin/deletecategory/{{this._id}}" class="confirm btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+
+    $(document).ready(function () {
+        $('#userTable').DataTable();
+    });
+    var elems = document.getElementsByClassName('confirm');
+    var confirmIt = function (e) {
+        if (!confirm('Are you sure?')) e.preventDefault();
+    };
+    for (var i = 0, l = elems.length; i < l; i++) {
+        elems[i].addEventListener('click', confirmIt, false);
+    }
+
+</script>

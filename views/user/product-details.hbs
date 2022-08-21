@@ -1,0 +1,167 @@
+<style type="text/css">
+    .drift-demo-trigger {
+        width: 40%;
+    }
+    .detail {
+        position: absolute;
+        width: 95%;
+        float: left;
+    }
+    @media (max-width: 900px) {
+        .detail,
+        .drift-demo-trigger {
+            float: none;
+        }
+        .drift-demo-trigger {
+            max-width: 100%;
+            width: auto;
+            margin: 0 auto;
+        }
+        .detail {
+            margin: 0;
+            width: auto;
+        }
+        .responsive-hint {
+            display: none;
+        }
+
+        .drift-bounding-box {
+            display: none;
+        }
+    }
+</style>
+<div class="d-flex">
+
+</div>
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-lg-6 col-sm-10 col-md-8 mx-auto pb-5">
+            <div id="product-carousel" class="carousel slide" data-interval="false">
+                <div class="carousel-inner border " style="height: 28rem;  display: flex;align-items: center;">
+                    <div class="carousel-item text-center active">
+                        <img class="drift-demo-trigger" data-zoom="/images/product-image/{{product._id}}1.jpg"
+                            src="/images/product-image/{{product._id}}1.jpg" alt="Image">
+                    </div>
+                    <div class="carousel-item text-center">
+                        <img class="drift-demo-trigger" data-zoom="/images/product-image/{{product._id}}2.jpg"
+                            src="/images/product-image/{{product._id}}2.jpg" alt="Image">
+                    </div>
+                    <div class="carousel-item text-center">
+                        <img class="drift-demo-trigger" data-zoom="/images/product-image/{{product._id}}3.jpg"
+                            src="/images/product-image/{{product._id}}3.jpg" alt="Image">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+                    <i class="fa fa-2x fa-angle-left text-dark"></i>
+                </a>
+                <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+                    <i class="fa fa-2x fa-angle-right text-dark"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-sm-10 pb-5">
+            <div class="detail">
+                <div class="d-flex">
+                    <div>
+                        <h3 class="font-weight-semi-bold">{{product.brand}} {{product.modelname}}</h3>
+                    </div>
+                    <div class="ml-auto">
+                        <button onclick="addToWishList('{{product._id}}')" class="btn border">
+                            <i class="fas fa-heart" id="wishListIcon" style="color:darkgray"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-4 mb-4 pt-5 pb-5 pr-5">
+                    {{product.description}}
+                </div>
+                <input type="text" style="display:none" id="product-id" value="{{product._id}}">
+                <h3 class="font-weight-semi-bold mb-4">Rs.{{product.price}}</h3>
+                <div class="d-flex align-items-center mb-4 pt-2">
+                    <button onclick="addToCart('{{product._id}}')" class="btn btn-primary px-3"><i
+                            class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    const addToWishList = async (id) => {
+        product = id
+        const res = await axios.post(`/addToWishList/${id}`, {
+        }).then((e) => {
+            if (e.data.response.cart) {
+                swal("Oops","Item already added to the cart","warning")
+            } else {
+                if (e.data.response.added) {
+                    let count = document.getElementById('wishlist-count').innerHTML
+                    count = parseInt(count) + 1
+                    document.getElementById('wishlist-count').innerHTML = count
+                    document.getElementById('wishListIcon').style.color = '#FFC0CB'
+                } else {
+                    let count = document.getElementById('wishlist-count').innerHTML
+                    count = parseInt(count) - 1
+                    document.getElementById('wishlist-count').innerHTML = count
+                    document.getElementById('wishListIcon').style.color = '#a9a9a9'
+                }
+            }
+
+        })
+    }
+    let product = document.getElementById('product-id').value
+    document.product = product
+    document.addEventListener('DOMContentLoaded', myWishlist, false)
+    async function myWishlist(evt) {
+
+        const res = await axios.get(`/checkWishlist/${evt.currentTarget.product}`, {}).then((e) => {
+            console.log(e.data.wishList)
+            if (e.data.wishList) {
+                document.getElementById('wishListIcon').style.color = '#FFC0CB'
+            } else {
+                document.getElementById('wishListIcon').style.color = '#a9a9a9'
+            }
+        })
+    }
+
+</script>
+
+
+
+<!-- Footer Start -->
+
+
+<!-- Footer End -->
+
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+<!-- JavaScript Libraries -->
+<script src="/js/Drift.js"></script>
+<script>
+
+
+    let driftImgs = document.querySelectorAll('.drift-demo-trigger');
+    let pane = document.querySelector('.detail');
+    for (let i = 0; i < driftImgs.length; i++) {
+        new Drift(driftImgs[i], {
+            paneContainer: pane,
+            inlinePane: false
+        })
+    }
+</script>
+{{!--
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> --}}
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="/lib/easing/easing.min.js"></script>
+<script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+
+<!-- Contact Javascript File -->
+<script src="/mail/jqBootstrapValidation.min.js"></script>
+<script src="/mail/contact.js"></script>
+
+<!-- Template Javascript -->
+<script src="/js/main.js"></script>

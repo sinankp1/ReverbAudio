@@ -1,0 +1,32 @@
+ <div class="container" id="mmm">
+    <div class="row justify-content-center pt-5 log">
+        <div class="col-8 col-md-6 col-lg-5 col-xl-4">
+            <p class="text-center h1 fw-bold mb-3 mx-1 mx-md-4 mt-4"></p>
+
+            <form action="/otp" method="post">
+                <div class="text-danger">
+                {{#unless otpCheck}}
+                <p>wrong otp</p>
+                {{/unless}}
+                </div>
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="otp">Enter the One Time Password</label>
+                    <input type="text" id="otp" class="form-control" name="otp" value=""/>
+
+                </div>
+                <div class="form-outline mb-4">
+                
+                    <input type="text" id="mobile" class="form-control invisible" name="mobile" value="{{mobile}}"/>
+
+                </div>
+                <!-- Submit button -->
+                <div class="row">
+                    <button type="submit" class="btn btn-primary col-3 mx-auto">Submit</button>
+                </div>
+
+                
+            </form>
+        </div>
+    </div>
+</div>

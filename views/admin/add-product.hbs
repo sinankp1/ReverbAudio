@@ -1,0 +1,161 @@
+<section class="my-5">
+    <div class="container">
+        <div class="row ">
+            <div class="col-lg-8 col-xl-8 mx-auto">
+                <div class="card text-black" style="border-radius: 25px;">
+                    <div class="card-body p-md-1">
+                        <div class="row justify-content-center">
+                            <div class="col-md-10 col-lg-9 col-xl-8 order-2 order-lg-1">
+
+                                <p class="text-center h1 fw-bold mb-1 mx-1 mx-md-4 mt-1">Add Product</p>
+                                <form class="mx-1 mx-md-4" id="myform1" action="/admin/add-product" method="post"
+                                    enctype="multipart/form-data">
+                                    {{#if exist}}
+                                    <p style="color:crimson ;">This product already exist</p>
+                                    {{/if}}
+                                    <div class="d-flex flex-row align-items-center mb-1">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="form3Example1c"> Product ID</label>
+                                            <input type="text" id="p_id" class="form-control" name="p_id" />
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center mb-1">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="form3Example1c"> Model Name</label>
+                                            <input type="text" id="modelname" class="form-control" name="modelname" />
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center mb-1">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="form3Example1c"> Brand</label>
+                                            <input type="text" id="brand" class="form-control" name="brand" />
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center mb-1">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="form3Example1c"> Price</label>
+                                            <input type="text" id="price" class="form-control" name="price" />
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center mb-1">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="form3Example1c"> Product description</label>
+                                            <textarea id="description" class="form-control" name="description" rows="4"
+                                                cols="46"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center mb-1">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="form3Example1c"> Product quantity</label>
+                                            <input type="number" id="quantity" class="form-control" name="quantity" />
+                                        </div>
+                                    </div>
+                                    <label for="formFile" class="form-label">UPLOAD IMAGES</label>
+                                    <div class="row ml-auto">
+                                        <input class="form-control col-8" type="file" id="formFile1" name="image1">
+                                        <img class="col-3" style="width:2.5rem ;" id="imageView1" src="">
+                                    </div>
+                                    <div class="row ml-auto">
+                                        <input class="form-control col-8" type="file" id="formFile2" name="image2">
+                                        <img class="col-3" style="width:2.5rem ;" id="imageView2" src="">
+                                    </div>
+                                    <div class="row ml-auto">
+                                        <input class="form-control col-8" type="file" id="formFile3" name="image3">
+                                        <img class="col-3" style="width:2.5rem ;" id="imageView3" src="">
+                                    </div>
+                                    <div class="row">
+                                        <label class="form-label" for="form3Example1c">Select Categories</label>
+                                        {{#each categories}}
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="d-flex flex-row align-items-center mb-1">
+                                                <div class="form-outline flex-fill mb-0">
+                                                    <input type="checkbox" id="vehicle1" class="form-label"
+                                                        name="categories" value="{{this._id}}">
+                                                    <label class="form-label" for="form3Example1c">
+                                                        {{this.categoryname}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{/each}}
+                                    </div>
+                                    <div class="d-flex justify-content-center mx-4 mb-1 mb-lg-4">
+                                        <button type="submit" class="btn btn-primary btn-lg">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    .error {
+        color: crimson;
+    }
+</style>
+<script>
+    formFile1.onchange = evt => {
+        const [file] = formFile1.files
+        if (file) {
+            imageView1.src = URL.createObjectURL(file)
+        }
+    }
+    formFile2.onchange = evt => {
+        const [file] = formFile2.files
+        if (file) {
+            imageView2.src = URL.createObjectURL(file)
+        }
+    }
+    formFile3.onchange = evt => {
+        const [file] = formFile3.files
+        if (file) {
+            imageView3.src = URL.createObjectURL(file)
+        }
+    }
+
+    $(document).ready(function () {
+        $("#myform1").validate({
+            rules: {
+                p_id: {
+                    required: true,
+                },
+                modelname: {
+                    required: true,
+                },
+                brand: {
+                    required: true,
+                },
+                price: {
+                    required: true,
+                    number: true
+                },
+                description: {
+                    required: true
+                },
+                quantity: {
+                    required: true
+                },
+                image1: {
+                    required: true
+                },
+                image2: {
+                    required: true
+                },
+                image3: {
+                    required: true
+                }
+            }
+
+        })
+    })
+
+    $("#myform1").submit(function () {
+        var checked = $("#myform1 input:checked").length > 0;
+        if (!checked) {
+            swal("Please check at least one checkbox");
+            return false;
+        }
+    });
+</script>

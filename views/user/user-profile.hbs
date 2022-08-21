@@ -1,0 +1,228 @@
+<!-- Contact Start -->
+<div class="container-fluid pt-2">
+    <div class="ml-5 mb-4">
+        <h3 class="section-title px-5"><span class="px-2">My Account</span></h3>
+    </div>
+    <div class="row px-xl-5">
+        <div class="col-3">
+            <link rel="stylesheet" href="/stylesheets/profilecard.css">
+            <div class="our-team">
+                <div class="picture">
+                    <img src="/images/user-images/{{userDetails._id}}.jpg">
+                </div>
+                <div class="team-content">
+                    <h3 class="name">{{userDetails.name}}</h3>
+                    <h4 class="title">{{userDetails.email}}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-7 mb-5">
+            <div class="contact-form">
+                <div id="success"></div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Full Name</h6>
+                    </div>
+                    <div class="col-sm-9 border border-dark">
+                        {{userDetails.name}}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-sm-9 border border-dark">
+                        {{userDetails.email}}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Mobile</h6>
+                    </div>
+                    <div class="col-sm-9 border border-dark">
+                        {{userDetails.mobile}}
+                    </div>
+                </div> <hr>
+                 <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Alt Mobile</h6>
+                    </div>
+                    <div class="col-sm-9 border border-dark">
+                        {{userDetails.alternativeNumber}}
+                    </div>
+                </div>
+                <div class="d-flex justify-content-evenly mt-4">
+                    <div>
+                        <button type="button" class="btn btn-primary " style="width:8rem" data-toggle="modal"
+                            data-target="#exampleModal"><i class="fa fa-edit"></i>Edit Profile
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-md">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class=" mx-auto border p-3" action="/editProfile" method="post" id="editProfileForm"
+                                            enctype="multipart/form-data">
+                                            <h2 class="text-center">EDIT PROFILE</h2>
+                                            <div class="form-outline mb-3"><input type="text" id="id"
+                                                    class="form-control invisible" name="id" value="{{userDetails._id}}"
+                                                    style="height: 10px;" />
+                                                <label class="form-label" for="title">NAME</label>
+                                                <input type="text" id="name" class="form-control" name="name"
+                                                    value="{{userDetails.name}}" />
+                                            </div>
+
+                                            <div class="form-outline mb-4">
+                                                <label class="form-label" for="description">EMAIL</label>
+                                                <input type="email" name="email" class="form-control" id="email"
+                                                    value="{{userDetails.email}}" />
+                                            </div>
+
+                                            <div class="form-outline mb-4">
+                                                <label class="form-label" for="atlNumber">ALTERNATIVE NUMBER</label>
+                                                <input type="number" id="alternativeNumber" class="form-control" name="alternativeNumber"
+                                                    value="" />
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="formFile" class="form-label">UPLOAD IMAGES</label>
+                                                <div class="row">
+                                                    <input class="form-control col-8" type="file" id="formFile1"
+                                                        name="image1">
+                                                    <img class="col-4" style="width:3rem ;" id="imageView1" src="">
+                                                </div>
+
+                                                <!-- Submit button -->
+                                                <div class="col mt-4">
+                                                    <button type="submit"
+                                                        class="btn btn-primary btn-block col-4 mx-auto">Update</button>
+                                                </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        {{!-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div>
+                    <a class="btn btn-primary" style="width: 8rem;" href="/addressManagement" id="address">
+                        Addresses</a>
+
+                </div>
+                <div>
+                    <a class="btn btn-primary " style="width:8rem" href="/orderManagement" id="allOrders">
+                        Orders</a>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+{{#if emailExist}}
+<div id="emailexist" style="display:none;">{{emailExist}}</div>
+{{/if}}
+<!-- Contact End -->
+<script>
+    formFile1.onchange = evt => {
+        const [file] = formFile1.files
+        if (file) {
+            imageView1.src = URL.createObjectURL(file)
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded',()=>{
+        let emailExist = document.getElementById('emailexist').innerHTML
+        if(emailExist == 'true'){
+            swal("Oops", "This email is already in use!", "error")
+        }
+    })
+    jQuery.validator.addMethod("lettersonly", function (value, element) {
+        return this.optional(element) || /^[a-z]+$/i.test(value);
+    }, "Letters only please");
+
+    $.validator.addMethod("noCaps", function (value, element) {
+        return this.optional(element) || !/[A-Z]/.test(value);
+    }, "email can't have upper case letters")
+
+  
+        $("#editProfileForm").validate({
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 5,
+                    lettersonly: true
+                },
+                email: {
+                    required: true,
+                    email: true,
+                    noCaps: true
+                },
+                alternativeNumber: {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 10
+                },
+
+            },
+            messages: {
+                name: {
+                    required: "Please enter your name",
+                    minlength: "Atleast 5 letters",
+                    lettersonly: "Only Letters"
+                },
+                email: {
+                    required: "Please enter your EmailID",
+                    email: "Enter a valid Email ID",
+                    noCaps: "Only lower case"
+                },
+                number: {
+                    required: "This field is mandatory",
+                    minlength: "Minimum 10 numbers",
+                    maxlength: "Maximum 10 numbers"
+                }
+            }
+        });
+
+</script>
+
+
+<!-- Footer Start -->
+
+
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+<!-- Contact Javascript File -->
+<script src="mail/jqBootstrapValidation.min.js"></script>
+<script src="mail/contact.js"></script>
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>

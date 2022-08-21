@@ -1,0 +1,80 @@
+<section class="vh-100" style="background-color: #eee;">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12 col-xl-11">
+                <div class="card text-black" style="border-radius: 25px;">
+                    <div class="card-body p-md-1">
+                        <div class="row justify-content-center">
+                            <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+
+                                <p class="text-center h1 fw-bold mb-1 mx-1 mx-md-4 mt-1">Add Coupon</p>
+                                <form class="mx-1 mx-md-4" id="myform1" action="/admin/add-banner" method="post" enctype="multipart/form-data">
+                                    {{#if bannerExist}}
+                                    <p style="color:crimson ;">coupon code already exist</p>
+                                    {{/if}}
+                                    <div class="d-flex flex-row align-items-center mb-1">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="form3Exsdsdample1c"> Name</label>
+                                           <input type="text" id="name" class="form-control"
+                                                name="name" />
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center mb-1">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="form3Example1c">code</label>
+                                            <input type="text" id="code" class="form-control"
+                                                name="code" />
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center mb-1">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="form3Example1c">description</label>
+                                            <input type="text" id="description" class="form-control"
+                                                name="description" />
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center mb-1">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="form3Example1c">discount</label>
+                                            <input type="number" id="discount" class="form-control"
+                                                name="discount" />
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="d-flex justify-content-center mx-4 mb-1 mb-lg-4">
+                                        <button type="submit" class="btn btn-primary btn-lg">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    
+        $("#myform1").validate({
+            rules: {
+                name: {
+                    required: true,
+                },
+                code: {
+                    required: true,
+                },
+                description: {
+                    required: true,
+                },
+                discount:{
+                    required:true,
+                }
+            }
+        })
+    
+</script>
+<style>
+    .error {
+        color: crimson;
+    }
+</style>

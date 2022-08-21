@@ -1,0 +1,58 @@
+
+<section class="mt-5">
+    <div class="container">
+        <div class="row ">
+            <div class="col-lg-8 col-xl-8 mx-auto">
+                <div class="card text-black" style="border-radius: 25px;">
+                    <div class="card-body p-md-1">
+                        <div class="row justify-content-center">
+                            <div class="col-md-10 col-lg-12 col-xl-8 order-2 order-lg-1">
+
+                                <p class="text-center h1 fw-bold mb-1 mx-1 mx-md-4 my-4">Add Category</p>
+                                <form class="mx-1 mx-md-4" id="myform1" action="/admin/add-category" method="post">
+                                     {{#if exist}}
+                                        <p style="color:crimson ;">This category already exist</p>
+                                    {{/if}}
+                                    <div class="d-flex flex-row align-items-center mb-1">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="form3Example1c"> Category Name</label>
+                                            <input type="text" id="categoryname" class="form-control" name="categoryname" />
+                                        </div>
+                                    </div>
+                                      <div class="d-flex flex-row align-items-center mb-1">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="form3Example1c"> Category Description</label>
+                                            <input type="text" id="categorydescription" class="form-control" name="categorydescription" />
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center mx-4 mb-1 mb-lg-4">
+                                        <button type="submit" class="btn btn-primary btn-lg">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $("#myform1").validate({
+            rules: {
+                categoryname: {
+                    required: true,
+                },
+                categorydescription: {
+                    required: true,
+                }
+            }
+        })
+    })
+</script>
+<style>
+    .error{
+        color: crimson;
+    }
+</style>

@@ -1,0 +1,104 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 mx-auto">
+            <div id="first">
+                <div class="myform form ">
+                    <div class="logo mb-3">
+                        <div class="col-md-12 text-center">
+                            <h1>Sign Up</h1>
+                        </div>
+                    </div>
+                    <form action="/signup" method="post" id="mysignupform">
+                        <div class="text-danger ms-4">
+                            {{#if exist}}
+                            User Already Exist
+                            {{/if}}
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Name</label>
+                            <input type="text" name="name" class="form-control" id="name" aria-describedby="emailHelp"
+                                placeholder="Enter Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input type="email" name="email" class="form-control" id="email"
+                                aria-describedby="emailHelp" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Mobile</label>
+                            <input type="text" name="mobile" class="form-control" id="mobile"
+                                aria-describedby="emailHelp" placeholder="Enter Mobile">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Password</label>
+                            <input type="password" name="password" id="password" class="form-control"
+                                aria-describedby="emailHelp" placeholder="Enter Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Confirm Password</label>
+                            <input type="password" name="confirmpassword" id="confirmpassword" class="form-control"
+                                aria-describedby="emailHelp" placeholder="Enter Password">
+                        </div>
+                        <div class="col-md-12 text-center ">
+                            <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm mt-4">Sign Up</button>
+                        </div>
+                    </form>
+                    <div class="form-group">
+                        <p class="text-center">Have an account? <a href="/login" id="login">Login Here</a></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="stylesheets/login.css" type="text/css">
+<script>
+
+    jQuery.validator.addMethod("lettersonly", function (value, element) {
+        return this.optional(element) || /^[a-z]+$/i.test(value);
+    }, "Letters only please");
+
+    $.validator.addMethod("noCaps", function (value, element) {
+        return this.optional(element) || !/[A-Z]/.test(value);
+    }, "email can't have upper case letters");
+
+    $(document).ready(function () {
+        $("#mysignupform").validate({
+            rules: {
+                name: {
+                    required: true,
+                    lettersonly: true,
+                },
+                email: {
+                    email: true,
+                    required: true,
+                    noCaps: true
+                },
+                mobile: {
+                    required: true,
+                    number: true,
+                    minlength: 10,
+                    maxlength: 10
+
+                },
+                password: {
+                    minlength: 8,
+                    required: true
+
+                },
+                confirmpassword: {
+                    equalTo: "#password",
+                    required: true
+                },
+            },
+            messages: {
+                confirmpassword: {
+                    equalto: "passwords does not match"
+                }
+
+            }
+        })
+    })
+
+</script>

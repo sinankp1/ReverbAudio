@@ -1,0 +1,55 @@
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div>
+                    <h3>Banners</h3>
+                </div>
+                <div>
+                    <a class="btn btn-primary m-3" href="/admin/add-banner" style="transform: translateX(-10%);">Add Banners</a>
+                </div>
+                <table class="table mt-5 border border-dark" id="userTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">product name</th>
+                            <th scope="col">title</th>
+                            <th scope="col">subtitle</th>
+                            <th scope="col">image</th>
+                            <td></td>
+                            <td></td>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each banners}}
+                        <tr>
+                            <td>{{this.product.modelname}}</td>
+                            <td>{{this.banner_title}}</td>
+                            <td>{{this.banner_subtitle}}</td>
+                            <td><img src="/images/banner-image/{{this._id}}.jpg" alt="" width="150px"></td>
+                            <td><a href="/admin/edit-banner/{{this._id}}" class="btn btn-primary">Edit</a></td>
+                            <td><a href="/admin/delete-banner/{{this._id}}" class="confirm btn btn-danger confirm">Delete</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+
+    $(document).ready(function () {
+        $('#userTable').DataTable();
+    });
+    var elems = document.getElementsByClassName('confirm');
+    var confirmIt = function (e) {
+        if (!confirm('Are you sure?')) e.preventDefault();
+    };
+    for (var i = 0, l = elems.length; i < l; i++) {
+        elems[i].addEventListener('click', confirmIt, false);
+    }
+
+</script>

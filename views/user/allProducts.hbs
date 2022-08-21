@@ -1,0 +1,85 @@
+<style>
+    .item-box {}
+
+    .active {
+        background-color: #d19c97 !important;
+    }
+</style>
+
+<div class="container-fluid pt-1 position-relative">
+    <div class="row px-xl-5">
+        <!-- Shop Sidebar Start -->
+        <div class="col-lg-2 col-3">
+            <div class="row position-fixed">
+
+                <!-- Price Start -->
+                <div class=" mb-4 pb-4">
+                    <h5 class="font-weight-semi-bold mb-4">Categories</h5>
+                    <ul class="p-0">
+                        <li class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3 all py-1 rounded-1 list active"
+                            data-filter="all" style="text-transform:capitalize;background-color:#eee ;cursor:pointer;">
+                            All
+                        </li>
+                        {{#each cats}}
+                        <li class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3 py-1 rounded-1 list"
+                            data-filter="{{this.categoryname}}"
+                            style="text-transform:capitalize;background-color:#eee;cursor:pointer;">
+                            {{this.categorydescription}}
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-9 col-9">
+            <div class="row pb-3">
+                {{#each products}}
+                <div
+                    class="col-lg-4 col-md-3 col-sm-6 col-9 pb-1 {{#each this.categories}} {{this.categoryname}} {{/each}} item-box">
+                    <div class="card product-item border-0 mb-4">
+                        <div
+                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-fluid w-100" src="images/product-image/{{this._id}}1.jpg" alt="">
+                        </div>
+                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                            <h6 class="text-truncate mb-3">{{this.brand}} {{this.modelname}}</h6>
+                            <div class="d-flex justify-content-center">
+                                <h6>Rs.{{this.price}}</h6>
+                                <h6 class="text-muted ml-2"><del>Rs.{{this.price}}</del></h6>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between bg-light border">
+                            <a href="/product-details/{{this._id}}" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-eye text-primary mr-1"></i>View Detail</a> {{#if ../session.loggedin}}
+                            <button onclick="addToCart('{{this._id}}')" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
+                            {{else}}
+                            <a href="/login" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        <!-- Shop Product End -->
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.list').click(function () {
+            const value = $(this).attr('data-filter');
+            if (value == 'all') {
+                $('.item-box').show(50);
+            } else {
+                $('.item-box').not('.' + value).hide(50);
+                $('.item-box').filter('.' + value).show(50);
+            }
+        })
+        $('.list').click(function () {
+            $(this).addClass('active').siblings().removeClass('active');
+        })
+    })
+</script>

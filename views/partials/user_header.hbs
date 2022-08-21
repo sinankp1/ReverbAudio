@@ -1,0 +1,75 @@
+<div class="row container-fluid ">
+    <div class="col-12">
+        <div class="row align-items-center py-3 px-xl-5">
+            <div class="col-lg-3 d-none d-lg-block">
+                <a href="" class="text-decoration-none">
+                    <img src="/images/reverb-logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="col-lg-6 col-6 text-left">
+                <form action="">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for products">
+                        <div class="input-group-append">
+                            <span class="input-group-text bg-transparent text-primary">
+                                <i class="fa fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-3 col-6 text-right">
+                <a href="/wishlist" class="btn border">
+                    <i class="fas fa-heart text-primary"></i>
+                    <span class="badge badge-primary" id="wishlist-count" style="color: white;"></span>
+                </a>
+                <a href="/cart" class="btn border">
+                    <i class="fas fa-shopping-cart text-primary"></i>
+                    <span class="badge badge-primary" id="cart-count" style="color: white;"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class=" mb-1 col-12">
+        <div class="row border-top px-xl-5">
+            <div class="col-lg-12">
+                <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
+                    <a href="/" class="text-decoration-none d-block d-lg-none">
+                        <img src="/images/reverb-logo.png" alt="logo">
+                    </a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                        <div class="navbar-nav mr-auto py-0">
+                            <a href="/" class="nav-item nav-link ">Home</a>
+                            {{!-- <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Categories</a>
+                                <div class="dropdown-menu rounded-0 m-0">
+                                    {{#each cats}}
+                                    <a href="#" data-toggle="dropdownitem">
+                                        <div style="padding: .5rem; margin-left:.7rem">{{this.categoryname}}</div>
+                                    </a>
+                                    {{/each}}
+                                </div>
+                            </div> --}}
+                            <a href="/allProducts" class="nav-item nav-link">All Products</a>
+                        </div>
+                        <div class="navbar-nav ml-auto py-0">
+                            {{#if session.loggedin}}
+                            <a href="/userprofile" class="nav-item nav-link">{{session.currentuser.name}}</a>
+                            <a href="/logout" class="nav-item nav-link">Logout</a>
+                            {{else}}
+                            <a href="/login" class="nav-item nav-link">Login</a>
+                            <a href="/signup" class="nav-item nav-link">Sign Up</a>
+                            {{/if}}
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+{{#if session.loggedin}}
+<script src="/javascripts/cartCount.js"></script>
+{{/if}}

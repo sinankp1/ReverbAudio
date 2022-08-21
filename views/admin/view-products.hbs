@@ -1,0 +1,64 @@
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div>
+                    <h3>Products</h3>
+                </div>
+                <div>
+                    <a class="btn btn-primary m-3" href="/admin/add-products" style="transform: translateX(-10%);">Add Products</a>
+                </div>
+                <table class="table mt-5  border border-dark" id="userTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product Id</th>
+                            <th scope="col">Model Name</th>
+                            <th scope="col">Brand</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Categories</th>
+                            <th scope="col">Images</th>
+
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each products}}
+                        <tr>
+                            <td>{{this.p_id}}</td>
+                            <td>{{this.modelname}}</td>
+                            <td>{{this.brand}}</td>
+                            <td>{{this.price}}</td>
+                            <td>
+                                <ul>
+                                    {{#each this.categories}}
+                                    <li>{{this.categoryname}}</li>
+                                    {{/each}}
+                                </ul>
+                            </td>
+                            <td><img src="/images/product-image/{{this._id}}1.jpg" alt="" width="40em"></td>
+                            <td><a href="/admin/edit-product/{{this._id}}" class="btn btn-primary">Edit</a></td>
+                            <td><a href="/admin/delete-product/{{this._id}}" class="confirm btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+
+    $(document).ready(function () {
+        $('#userTable').DataTable();
+    });
+    var elems = document.getElementsByClassName('confirm');
+    var confirmIt = function (e) {
+        if (!confirm('Are you sure?')) e.preventDefault();
+    };
+    for (var i = 0, l = elems.length; i < l; i++) {
+        elems[i].addEventListener('click', confirmIt, false);
+    }
+
+</script>

@@ -1,0 +1,243 @@
+{{#if response.notEmpty}}
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-8 table-responsive mb-5">
+            <table class="table table-bordered text-center mb-0">
+                <thead class="bg-secondary text-dark">
+                    <tr>
+                        <th>Products</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody class="align-middle">
+                    {{#each cart.cartItems}}
+                    <tr>
+                        <td class="align-middle"><img src="/images/product-image/{{this.product._id}}1.jpg" alt=""
+                                style="width: 50px;">{{this.product.modelname}}</td>
+                        <td class="align-middle" id="{{this.product._id}}price">{{this.product.price}}</td>
+                        <td class="align-middle">
+                            <div class="input-group quantity mx-auto" style="width: 100px;">
+                                <div class="input-group-btn">
+                                    <button onclick="quantityMinus('{{this.product._id}}')"
+                                        class="btn btn-sm btn-primary btn-minus" id="minus{{this.product._id}}">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <input type="text"
+                                    class="form-control form-control-sm bg-secondary text-center qntvalue"
+                                    id="{{this.product._id}}" value="{{this.quantity}}" disabled>
+                                <div class="input-group-btn">
+                                    <button onclick="quantityPlus('{{this.product._id}}')"
+                                        class="btn btn-sm btn-primary btn-plus">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="align-middle">Rs.<span id="{{this.product._id}}total">{{total this.quantity
+                                this.product.price}}</span></td>
+                        <td class="align-middle">
+                            <button class="btn btn-sm btn-primary" onclick="deleteFromCart('{{this.product._id}}')"><i
+                                    class="fa fa-times"></i></button>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-4">
+            <div class="input-group">
+                <input type="text" class="form-control p-4" id="couponCode" placeholder="Coupon Code">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" onclick="applyCoupon()">Apply Coupon</button>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-group-append">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn bg-transparent coupons" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        Show Available Coupons
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Coupons</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {{#if data.nothing}}
+                                    There is no coupons available right now
+                                    {{else}}
+                                    <ul>
+                                        {{#each data.coupons}}
+                                        <li>{{this.code}}<br>{{this.description}}</li>
+                                        {{/each}}
+                                    </ul>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-secondary mb-5">
+                <div class="card-header bg-secondary border-0">
+                    <h4 class="font-weight-semi-bold m-0">Cart Summary</h4>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3 pt-1">
+                        <h6 class="font-weight-medium">Subtotal</h6>
+                        <h6 class="font-weight-medium">Rs. <span id="subtotal">{{subTotal cart.cartItems}}</span> </h6>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3 pt-1">
+                        <h6 class="font-weight-medium">Coupon Discount</h6>
+                        <h6 class="font-weight-medium">Rs. <span id="couponDiscount">0</span> </h6>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="font-weight-medium">Shipping</h6>
+                        <h6 class="font-weight-medium">Rs. <span id="shipping"></span> </h6>
+                    </div>
+                </div>
+                <div class="card-footer border-secondary bg-transparent">
+                    <div class="d-flex justify-content-between mt-2">
+                        <h5 class="font-weight-bold">Total</h5>
+                        <h5 class="font-weight-bold">Rs. <span id="grandTotal"></span></h5>
+                    </div>
+                    <a class="btn btn-block btn-primary my-3 py-3" href="/checkout">Proceed To Checkout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{else}}
+<div style="transform: translateY(200%);">
+    <div style="transform: translateX(41%);">
+        Your cart is empty
+    </div>
+</div>
+{{/if}}
+
+<script>
+    const quantityPlus = async (id) => {
+        try {
+            const res = await axios.post(`/quantityPlus/${id}`, {
+            }).then((e) => {
+                console.log(id)
+                document.getElementById(id).value = e.data.response.count
+                total(id)
+                window.location.reload()
+            })
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const quantityMinus = async (id) => {
+        try {
+            let count = document.getElementById(id).value
+            if (count === 1) {
+                confirm("are you sure want remove this item from the cart?")
+            }
+            const res = await axios.post(`/quantityMinus/${id}`, {
+            }).then((e) => {
+                console.log(id)
+                if (e.data.response.count === 0) {
+                    window.location.reload()
+                } else {
+                    document.getElementById(id).value = e.data.response.count
+                    total(id)
+                    window.location.reload()
+                }
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    const deleteFromCart = async (id) => {
+        try {
+            const res = await axios.post(`/deleteFromCart/${id}`, {
+            }).then((e) => {
+                console.log(id)
+                alert('Item DELETED from the cart')
+                window.location.reload();
+            })
+        } catch (err) {
+            console.log(err.response.data)
+        }
+    }
+    const total = (id) => {
+        let price = document.getElementById(id + 'price').innerHTML
+        let quantity = document.getElementById(id).value
+        const total = parseInt(price) * parseInt(quantity)
+        document.getElementById(id + 'total').innerHTML = total;
+    }
+    let subtotal = document.getElementById('subtotal').innerHTML
+    document.subtotal = subtotal
+    console.log(document)
+    document.addEventListener('DOMContentLoaded', myFunc, false)
+    function myFunc(evt) {
+        if (evt.currentTarget.subtotal >= 1000) {
+            document.getElementById('shipping').innerHTML = '0'
+            document.getElementById('grandTotal').innerHTML = subtotal
+        } else if (evt.currentTarget.subtotal > 0) {
+            document.getElementById('shipping').innerHTML = '100'
+            document.getElementById('grandTotal').innerHTML = parseInt(subtotal) + 100 + ''
+        }
+        let minusBtns = document.getElementsByClassName('qntvalue')
+        console.log(minusBtns.length)
+        for (let i = 0; i < minusBtns.length; i++) {
+            if (minusBtns[i].value === '1')
+                document.getElementById(`minus${minusBtns[i].id}`).disabled = true
+
+        }
+    }
+
+    const applyCoupon = async () => {
+        let couponCode = document.getElementById('couponCode').value
+        if (couponCode == "") {
+            swal("warning", "invalid coupon", "warning")
+        } else {
+            try {
+                const res = await axios.post('/applyCoupon', {
+                    code: couponCode
+                }).then((e) => {
+                    console.log(e.data.response)
+                    if (e.data.response.status) {
+                        document.getElementById('couponDiscount').innerHTML = e.data.response.discount
+                        document.getElementById('grandTotal').innerHTML = e.data.response.grandTotal
+                    } else {
+                        swal("invalid Coupon", "", "warning")
+                    }
+                })
+            } catch (err) {
+                console.log(err.response.data)
+            }
+        }
+    }
+
+</script>
+<!-- Cart End -->
+
+<style>
+    .coupons:hover {
+        color: rgb(42, 42, 42);
+        text-decoration: none;
+        border: 1px solid white;
+    }
+
+    .coupons:hover::after {
+        color: rgb(42, 42, 42);
+        text-decoration: none;
+        border: 1px solid white;
+    }
+</style>
