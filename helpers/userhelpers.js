@@ -11,7 +11,6 @@ const couponModel = require('../models/couponModel');
 const orderModel = require('../models/orderModel')
 const Razorpay = require('razorpay');
 const productModel = require('../models/productModel');
-const s=3123
 var instance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET,
