@@ -106,9 +106,11 @@
     console.log(document)
     document.addEventListener('DOMContentLoaded', myFunc, false)
     function myFunc(evt) {
-        if (evt.currentTarget.deliveryStatus === 'shipping') {
+        console.log(evt.currentTarget.deliveryStatus)
+        if (evt.currentTarget.deliveryStatus === 'shipped') {
             document.getElementById('progress-bar').style.width = '50%'
             document.getElementById('dot2').classList.add('text-primary')
+            console.log(evt.currentTarget.deliveryStatus)
         } else if (evt.currentTarget.deliveryStatus === 'OutForDelivery') {
             document.getElementById('progress-bar').style.width = '80%'
             document.getElementById('dot2').classList.add('text-primary')
