@@ -1,83 +1,60 @@
 <div class="container-fluid">
-                <!-- ============================================================== -->
-                <!-- Three charts -->
-                <!-- ============================================================== -->
-                <div class="row justify-content-center">
-                    <div class="col-lg-4 col-md-12">
-                        <div class="white-box analytics-info">
-                            <h3 class="box-title">Total Visit</h3>
-                            <ul class="list-inline two-part d-flex align-items-center mb-0">
-                                <li>
-                                    <div id="sparklinedash"><canvas width="67" height="30"
-                                            style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
-                                    </div>
-                                </li>
-                                <li class="ms-auto"><span class="counter text-success">659</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="white-box analytics-info">
-                            <h3 class="box-title">Total Page Views</h3>
-                            <ul class="list-inline two-part d-flex align-items-center mb-0">
-                                <li>
-                                    <div id="sparklinedash2"><canvas width="67" height="30"
-                                            style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
-                                    </div>
-                                </li>
-                                <li class="ms-auto"><span class="counter text-purple">869</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="white-box analytics-info">
-                            <h3 class="box-title">Unique Visitor</h3>
-                            <ul class="list-inline two-part d-flex align-items-center mb-0">
-                                <li>
-                                    <div id="sparklinedash3"><canvas width="67" height="30"
-                                            style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
-                                    </div>
-                                </li>
-                                <li class="ms-auto"><span class="counter text-info">911</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- ============================================================== -->
-                <!-- PRODUCTS YEARLY SALES -->
-                <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Three charts -->
+    <!-- ============================================================== -->
+    <div class="row justify-content-between p-4">
+        <div class="col-lg-4 col-md-12 row pt-2 pb-2 border  shadow">
+            <div class="col-auto mx-auto">
                 <div class="row">
-                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                        <div class="white-box">
-                            <h3 class="box-title">Sales</h3>
-                            <div class="d-md-flex">
-                                <ul class="list-inline d-flex ms-auto">
-                                    <li class="ps-3">
-                                        <h5><i class="fa fa-circle me-1 text-info"></i>Mac</h5>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div id="ct-visits" style="height: 405px;">
-                                <canvas id="myChart" style="width:100%;"></canvas><span
-                                        class="chartist-tooltip-value">6</span>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-auto">
+                        <h3 class="box-title">Total Orders</h3>
+                    </div>
+                    <div class="col-auto">
+                        <h4><span class="text-success" style="margin-top:5px;" id="totalOrders"></span></h4>
                     </div>
                 </div>
             </div>
-<section>
-    <div class="container-fluid">
-        
+        </div>
+        <div class="col-lg-4 col-md-12 row pt-2 pb-2 border  shadow">
+            <div class="col-auto mx-auto">
+                <div class="row">
+                    <div class="col-auto">
+                        <h3 class="box-title">Cash On Delivery</h3>
+                    </div>
+                    <div class="col-auto">
+                        <h4><span class="text-success" style="margin-top:5px;" id="COD"></span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12 row pt-2 pb-2 border  shadow">
+            <div class="col-auto mx-auto">
+                <div class="row">
+                    <div class="col-auto">
+                        <h3 class="box-title">Razorpay</h3>
+                    </div>
+                    <div class="col-auto">
+                        <h4><span class="text-success" style="margin-top:5px;" id="razorpay"></span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</section>
+    <!-- ============================================================== -->
+    <!-- PRODUCTS YEARLY SALES -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <div class="col-md-7 col-lg-7 col-sm-7 col-xs-7 mx-auto shadow">
+            
+            <div id="ct-visits" style="height: 405px;">
+                <h3 class="box-title">Sales</h3>
+                <canvas id="myChart" style="width:100%; max-width:700px;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 <script>
-
-
-
-
-
     document.addEventListener("DOMContentLoaded", charts, false)
 
     async function charts() {
@@ -132,6 +109,13 @@
 
 
         })
+        const res1 = await axios.get('/admin/getOrderCount').then((e) => {
+            console.log(e.data.response)
+            document.getElementById('totalOrders').innerHTML = e.data.response.all
+            document.getElementById('COD').innerHTML = e.data.response.COD
+            document.getElementById('razorpay').innerHTML = e.data.response.razorpay
+        })
+
     }
 
 </script>

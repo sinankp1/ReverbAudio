@@ -9,6 +9,7 @@ const productModel = require('../models/productModel')
 const bannerModel = require('../models/bannerModel')
 const couponModel = require('../models/couponModel');
 const orderModel = require('../models/orderModel');
+const { response } = require('express');
 
 
 module.exports = {
@@ -406,6 +407,20 @@ module.exports = {
                 resolve()
             }).catch((err) => {
                 reject(err)
+            })
+        })
+    },
+    getOrderCount:()=>{
+        return new Promise((resolve,reject)=>{
+            let response = {}
+            orderModel.find({}).then((data) => {
+                orderModel.find({paymentDetails:'online'}).then((data1)=>{
+                    response.razorpay = data1.length
+                    response.COD = data.length - data1.length
+                    response.all = data.length
+                    console.log(response)
+                    resolve(response)
+                })
             })
         })
     }

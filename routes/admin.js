@@ -331,6 +331,12 @@ router.get('/revenueChart',isLogin, (req, res) => {
     })
 })
 
+router.get('/getOrderCount',isLogin,(req,res)=>{
+    adminHelper.getOrderCount().then(response =>{
+        res.json({response})
+    })
+})
+
 router.get('/deleteCoupon/:id', isLogin, (req, res, next) => {
     adminHelper.deleteCoupon(req.params.id).then((data) => {
         res.redirect('/admin/view-coupons')
