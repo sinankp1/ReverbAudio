@@ -72,10 +72,10 @@
         $('.list').click(function () {
             const value = $(this).attr('data-filter');
             if (value == 'all') {
-                $('.item-box').show(50);
+                $('.item-box').show(500);
             } else {
-                $('.item-box').not('.' + value).hide(50);
-                $('.item-box').filter('.' + value).show(50);
+                $('.item-box').not('.' + value).hide(500);
+                $('.item-box').filter('.' + value).show(500);
             }
         })
         $('.list').click(function () {
