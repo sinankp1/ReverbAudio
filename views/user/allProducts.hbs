@@ -74,7 +74,7 @@
             if (value == 'all') {
                 $('.item-box').show(500);
             } else {
-                $('.item-box').not('.' + value).hide(500);
+                $('.item-box').not('.' + value).hide(1);
                 $('.item-box').filter('.' + value).show(500);
             }
         })

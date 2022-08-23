@@ -4,30 +4,34 @@
         <table class="table mt-5 border border-dark" id="userTable">
             <thead>
                 <tr>
-                    <th scope="col">customer</th>
-                    <th scope="col">products</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Total Price</th>
-                    <th scope="col">Payment Method</th>
-                    <th scope="col">Payment Status</th>
-                    <th scope="col">Delivery Status</th>
-                    <th scope="col">Order Date</th>
+                    <th scope="col" style="text-transform:capitalize;">No.</th>
+                    <th scope="col" style="text-transform:capitalize;">customer</th>
+                    <th scope="col" style="text-transform:capitalize;">products</th>
+                    <th scope="col" style="text-transform:capitalize;">Quantity</th>
+                    <th scope="col" style="text-transform:capitalize;">Total Price</th>
+                    <th scope="col" style="text-transform:capitalize;">Payment Method</th>
+                    <th scope="col" style="text-transform:capitalize;">Payment Status</th>
+                    <th scope="col" style="text-transform:capitalize;">Delivery Status</th>
+                    <th scope="col" style="text-transform:capitalize;">Order Date</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each orders}}
                 <tr>
+                    <td>{{inc1 @index}}</td>
                     <td>{{this.user.name}}</td>
                     <td>{{#each this.orderItems}}{{this.product.modelname}} <br>{{/each}}</td>
                     <td>{{#each this.orderItems}}{{this.quantity}}<br>{{/each}}</td>
                     <td>{{this.totalPrice}}</td>
                     <td>{{this.paymentDetails}}</td>
                     <td>{{#if this.orderStatus}}Approved{{else}}Pending{{/if}}</td>
-                    <td><button onclick="showUpdate('{{this._id}}')" style="border:1px solid;">{{this.deliveryStatus}}</button>
-                        <div id="modalDiv{{this._id}}" style="display:none;">
+                    <td>{{#if (eq this.deliveryStatus 'Delivered')}}
+                        <button class="btn btn-primary">{{this.deliveryStatus}}</button>
+                        {{else}}
+                        <div id="modalDiv{{this._id}}">
                             <button type="button" class="btn btn-primary col mx-auto"
                                 data-bs-toggle="modal" data-bs-target="#m{{this._id}}">
-                                Update
+                                {{this.deliveryStatus}}
                             </button>
 
                             <!-- Modal -->
@@ -48,10 +52,16 @@
                                                         <label class="form-label" for="form3Exsdsdample1c">
                                                             Change Delivery Status</label>
                                                         <select name="shipping"  id="select{{this._id}}">
-                                                            <option value="processing">processing</option>
+                                                            {{#if (eq this.deliveryStatus 'processing')}}
                                                             <option value="shipped">Shipped</option>
                                                             <option value="OutForDelivery">Out For Delivery</option>
                                                             <option value="Delivered">Delivered</option>
+                                                            {{else if (eq this.deliveryStatus 'shipped')}}
+                                                            <option value="OutForDelivery">Out For Delivery</option>
+                                                            <option value="Delivered">Delivered</option>
+                                                            {{else if (eq this.deliveryStatus 'OutForDelivery')}}
+                                                            <option value="Delivered">Delivered</option>
+                                                            {{/if}}
                                                         </select>
                                                     </div>
                                                 </div
@@ -66,8 +76,9 @@
                                 </div>
                             </div>
                         </div>
+                        {{/if}}
                     </td>
-                    <td>{{this.createdAt}}</td>
+                    <td>{{dateFormat this.createdAt}}</td>
                 </tr>
                 {{/each}}
             </tbody>

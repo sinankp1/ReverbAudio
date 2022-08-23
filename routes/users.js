@@ -156,14 +156,14 @@ router.get('/otp', login, otpSent, ((req, res) => {
 router.post('/otp', ((req, res) => {
   userhelpers.verifyOtp(req.body.otp, req.body.mobile).then((check) => {
     if (check === 'approved') {
-      req.session.otpcheck = true
+      req.session.otpcheck = false
       userhelpers.userSave(req.session.user).then((data) => {
         req.session.currentuser = data
         req.session.loggedin = true
         res.redirect('/')
       })
     } else {
-      req.session.otpcheck = false
+      req.session.otpcheck = true
       res.redirect('/otp')
     }
   })

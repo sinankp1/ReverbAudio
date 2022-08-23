@@ -391,7 +391,7 @@ module.exports = {
     },
     getAllOrders: () => {
         return new Promise((resolve, reject) => {
-            let orders = orderModel.find().populate('user').populate('orderItems.product').populate('deliveryDetails').lean()
+            let orders = orderModel.find().populate('user').populate('orderItems.product').populate('deliveryDetails').lean().sort({createdAt:-1})
             resolve(orders)
         })
     },

@@ -42,27 +42,39 @@ app.engine('hbs', hbs.engine({
   defaultLayout: 'layout',
   layoutsDir: __dirname + '/views/layout/',
   partialsDir: __dirname + '/views/partials/',
-  helpers:{
-    total:(qty,price)=>{
+  helpers: {
+    total: (qty, price) => {
       return qty * price
     },
-    subTotal: function(arr){
+    subTotal: function (arr) {
       let subtotal = 0;
       for (let i = 0; i < arr.length; i++) {
-        subtotal =subtotal + arr[i].product.price * arr[i].quantity;
+        subtotal = subtotal + arr[i].product.price * arr[i].quantity;
       }
       return subtotal;
     },
-    json: function(data){
+    json: function (data) {
       return JSON.stringify(data);
     },
-    eq:function(data,string){
-      if(data === string) return true
+    eq: function (data, string) {
+      if (data === string) return true
       else return false
     },
-    date: function(date){
-      let data = date+""
+    date: function (date) {
+      let data = date + ""
       return data.slice(0, 16);
+    },
+    dateFormat: function (data) {
+      var dateobj =
+        new Date(data);
+
+      var B = dateobj.toUTCString();
+
+      return B.slice(5, 25)
+
+    },
+    inc1: function(data){
+      return data + 1
     }
   }
 }))
@@ -107,7 +119,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error',{error:true,err});
+  res.render('error', { error: true, err });
 });
 
 module.exports = app;
