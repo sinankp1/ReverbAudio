@@ -78,7 +78,7 @@
             var yValues = [];
 
             result.map((curr) => {
-                xValues.push(curr.date)
+                xValues.unshift(curr.date)
                 yValues.unshift(parseInt(curr.totalPrice))
 
             })
