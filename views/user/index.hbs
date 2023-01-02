@@ -6,7 +6,7 @@
                 <div class="carousel-inner">
                     {{#each banners}}
                     <div class="carousel-item {{#if @first}} active {{/if}}" style="height: 410px;">
-                        <img class="img-fluid product_img" src="/images/banner-image/{{this._id}}.jpg" alt="Image">
+                        <img class="img-fluid" src="/images/banner-image/{{this._id}}.jpg" alt="Image">
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div class="p-3" style="max-width: 700px;">
                                 <h4 class="text-light text-uppercase font-weight-medium mb-3">{{this.banner_subtitle}}
@@ -39,9 +39,9 @@
     {{!-- <div class="text-center mb-4">
         <h2 class="section-title px-5"><span class="px-2">Trendy Products</span></h2>
     </div> --}}
-    <div class="row px-xl-5 pb-3">
+    <div class="row px-xl-5 pb-3 justify-content-around">
         {{#each product}}
-        <div class="col-lg-3 col-md-4 col-sm-6 col-10 pb-1">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-6 col-xs-8 pb-1" style="max-width: 246px;">
             <div class="card product-item border-0 mb-4">
                 <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                     <img class="img-fluid w-100 product_img" style="width:100%;object-fit:cover;" src="images/product-image/{{this._id}}1.jpg" alt="">

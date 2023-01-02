@@ -68,8 +68,9 @@ body {
   outline: 0 !important;
 }
 .product_img{
-  height: 210px !important;
+  height: 240px !important;
 }
+
 hr {
   box-sizing: content-box;
   height: 0;
@@ -6672,6 +6673,12 @@ button.bg-dark:focus {
 
 .align-self-stretch {
   align-self: stretch !important;
+}
+
+@media (max-width: 419px){
+  .col-xs-8{
+    flex: 0 0 80%;
+  }
 }
 
 @media (min-width: 576px) {
